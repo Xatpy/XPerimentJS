@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Counting words</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+          body {
+            text-align: center;
+          }
+        </style>
+
+        <!-- JQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            var dict = []; //word and count
+
+            function sortByKey(array, key) {
+                return array.sort(function(a, b) {
+                    var x = a[key]; var y = b[key];
+                    return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+                });
+            }
+
+            function checkingWordInDictionary(wd ) {
+
+                for (var i = 0; i < dict.length; ++i) {
+                  if (dict[i].word === wd) {
+                    //existe, así que aumentamos su valor en 1 y nos piramos
+                    dict[i].value += 1;
+                    return;
+                  }
+                }
+
+                dict.push({word: wd, value: 0});
+            }
+
+            function main() {
+                console.log('hola');
+
+                var url = "https://marias.cartodb.com/api/v2/sql?q=select%20*%20from%20twitter_temblor_terremoto_earthquake";
+                
+                $.getJSON( url, function (data) {
+                    var rows = data.rows;
+                    var length = rows.length;
+
+                    for (var i = 0; i < length; ++i) {
+                      var phrase = rows[i].body;
+                      var arWords = phrase.split(" ");
+
+                      //Go through array and check if we have this 
+                      for (var j = 0; j < arWords.length; ++j) {
+                        var checkWord = arWords[j];
+                        
+                        checkingWordInDictionary(checkWord);
+                      }
+
+                      console.log(phrase);
+                    }
+
+                    //ordenar array
+                    sortByKey(dict, 'value');
+
+                    //paint
+                    paint();
+                  
+                    console.log('fin');
+                })
+
+            }
+
+            function paint() {
+              for (var i = 0; i < dict.length; ++i) {
+                var text = '<p>' + dict[i].word + " : " + dict[i].value + '</p>';
+                $("#results").append(text);
+              }
+            }
+
+        </script>
+    </head>
+
+    <body onload="main()">
+      <div id="results"></div>
+    </body>
+</html>
