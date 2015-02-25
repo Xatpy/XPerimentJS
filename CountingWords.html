@@ -24,7 +24,16 @@
                 });
             }
 
-            function checkingWordInDictionary(wd ) {
+            //Check if the word pass all the filters. Return true is everything is ok and is passed
+            function filters(wd) {
+              if (wd.length < 4) {
+                return false;
+              }
+
+              return true;
+            }
+
+            function checkingWordInDictionary(wd) {
 
                 for (var i = 0; i < dict.length; ++i) {
                   if (dict[i].word === wd) {
@@ -34,15 +43,20 @@
                   }
                 }
 
-                dict.push({word: wd, value: 0});
+                dict.push({word: wd, value: 1});
             }
 
             function main() {
-                console.log('hola');
+                console.log('start');
+
+                printStatus('Executing query...');
 
                 var url = "https://marias.cartodb.com/api/v2/sql?q=select%20*%20from%20twitter_temblor_terremoto_earthquake";
                 
                 $.getJSON( url, function (data) {
+
+                    printStatus('Analyzing data...');
+
                     var rows = data.rows;
                     var length = rows.length;
 
@@ -53,12 +67,15 @@
                       //Go through array and check if we have this 
                       for (var j = 0; j < arWords.length; ++j) {
                         var checkWord = arWords[j];
-                        
-                        checkingWordInDictionary(checkWord);
+                        if (filters(checkWord)) {
+                          checkingWordInDictionary(checkWord);
+                        }
                       }
 
                       console.log(phrase);
                     }
+
+                    printStatus('Sorting...');
 
                     //ordenar array
                     sortByKey(dict, 'value');
@@ -76,6 +93,10 @@
                 var text = '<p>' + dict[i].word + " : " + dict[i].value + '</p>';
                 $("#results").append(text);
               }
+            }
+
+            function printStatus(status){
+              $("#results").text(status);
             }
 
         </script>
