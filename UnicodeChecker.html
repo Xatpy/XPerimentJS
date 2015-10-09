@@ -1,0 +1,291 @@
+<html>
+    <head>
+    <title>Getting HEX</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Aclonica:regular" rel="stylesheet" type="text/css" >
+
+    <style>
+
+        body {
+            text-align: center;
+        }
+
+        h1{
+            font-family: 'Aclonica', serif;
+            color:#333;
+            text-shadow: -5px 5px 5px rgba(0,0,0, 0.3);
+        }
+
+        /* ----------------- TABLE ------------*/
+        .CSSTableGenerator {
+            margin:0px;padding:0px;
+            width:70%;
+            box-shadow: 10px 10px 5px #888888;
+            border:1px solid #7f0000;
+            
+            -moz-border-radius-bottomleft:14px;
+            -webkit-border-bottom-left-radius:14px;
+            border-bottom-left-radius:14px;
+            
+            -moz-border-radius-bottomright:14px;
+            -webkit-border-bottom-right-radius:14px;
+            border-bottom-right-radius:14px;
+            
+            -moz-border-radius-topright:14px;
+            -webkit-border-top-right-radius:14px;
+            border-top-right-radius:14px;
+            
+            -moz-border-radius-topleft:14px;
+            -webkit-border-top-left-radius:14px;
+            border-top-left-radius:14px;
+
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }.CSSTableGenerator table{
+            border-collapse: collapse;
+                border-spacing: 0;
+            width:100%;
+            max-height:100%;
+            margin:0px;padding:0px;
+        }.CSSTableGenerator tr:last-child td:last-child {
+            -moz-border-radius-bottomright:14px;
+            -webkit-border-bottom-right-radius:14px;
+            border-bottom-right-radius:14px;
+        }
+        .CSSTableGenerator table tr:first-child td:first-child {
+            -moz-border-radius-topleft:14px;
+            -webkit-border-top-left-radius:14px;
+            border-top-left-radius:14px;
+        }
+        .CSSTableGenerator table tr:first-child td:last-child {
+            -moz-border-radius-topright:14px;
+            -webkit-border-top-right-radius:14px;
+            border-top-right-radius:14px;
+        }.CSSTableGenerator tr:last-child td:first-child{
+            -moz-border-radius-bottomleft:14px;
+            -webkit-border-bottom-left-radius:14px;
+            border-bottom-left-radius:14px;
+        }.CSSTableGenerator tr:hover td{
+            
+        }
+        .CSSTableGenerator tr:nth-child(odd){ background-color:#ffaaaa; }
+        .CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+            vertical-align:middle;
+            
+            
+            border:1px solid #7f0000;
+            border-width:0px 1px 1px 0px;
+            text-align:center;
+            padding:7px;
+            font-size:10px;
+            font-family:Arial;
+            font-weight:normal;
+            color:#000000;
+        }.CSSTableGenerator tr:last-child td{
+            border-width:0px 1px 0px 0px;
+        }.CSSTableGenerator tr td:last-child{
+            border-width:0px 0px 1px 0px;
+        }.CSSTableGenerator tr:last-child td:last-child{
+            border-width:0px 0px 0px 0px;
+        }
+        .CSSTableGenerator tr:first-child td{
+                background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+            background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");  background: -o-linear-gradient(top,#ff5656,7f0000);
+
+            background-color:#ff5656;
+            border:0px solid #7f0000;
+            text-align:center;
+            border-width:0px 0px 1px 1px;
+            font-size:14px;
+            font-family:Arial;
+            font-weight:bold;
+            color:#ffffff;
+        }
+        .CSSTableGenerator tr:first-child:hover td{
+            background:-o-linear-gradient(bottom, #ff5656 5%, #7f0000 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff5656), color-stop(1, #7f0000) );
+            background:-moz-linear-gradient( center top, #ff5656 5%, #7f0000 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff5656", endColorstr="#7f0000");  background: -o-linear-gradient(top,#ff5656,7f0000);
+
+            background-color:#ff5656;
+        }
+        .CSSTableGenerator tr:first-child td:first-child{
+            border-width:0px 0px 1px 0px;
+        }
+        .CSSTableGenerator tr:first-child td:last-child{
+            border-width:0px 0px 1px 1px;
+        }
+
+        /* ----------------- INPUT ------------*/
+
+        .css-input { border-color:#cccccc; border-style:solid; padding:8px; font-size:17px; text-shadow:0px 0px 0px rgba(42,42,42,.82); border-radius:17px; border-width:2px; box-shadow: 0px 0px 10px 0px rgba(42,42,42,.92);  width:80%;} 
+        .css-input:focus { outline:none; } 
+
+        /* -----------------BUTTON ------------*/
+        .btn {
+          background: #ed3453;
+          background-image: -webkit-linear-gradient(top, #ed3453, #781c2e);
+          background-image: -moz-linear-gradient(top, #ed3453, #781c2e);
+          background-image: -ms-linear-gradient(top, #ed3453, #781c2e);
+          background-image: -o-linear-gradient(top, #ed3453, #781c2e);
+          background-image: linear-gradient(to bottom, #ed3453, #781c2e);
+          -webkit-border-radius: 28;
+          -moz-border-radius: 28;
+          border-radius: 28px;
+          font-family: Arial;
+          color: #ffffff;
+          font-size: 20px;
+          padding: 10px 20px 10px 20px;
+          text-decoration: none;
+        }
+
+        .btn:hover {
+          background: #3cb0fd;
+          background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+          text-decoration: none;
+        }
+    </style>
+
+    <script>
+    var data = [];
+
+    function checkData(code, ch){
+        var i = 0;
+        var bFound = false;
+        while ( (i < data.length) && (!bFound) ) {
+            if (data[i].code === code) {
+                bFound = true;
+            }
+            i++;
+        }
+        
+        if (bFound) {
+            data[i - 1].count++;
+            console.log('aaaaaaaaaaaa');
+        } else {
+            var obj = {};
+            obj.code = code;
+            obj.count = 1;
+            obj.ch = ch;
+            data.push(obj);
+            console.log('bbbbbbbbbbbb');
+        }
+        console.log(data);
+    }
+
+    function entityForSymbolInContainer(selector) {
+        //var lng = $(selector).text().length;
+        debugger
+        var lng = selector.length;
+        for (var i = 0; i < lng; ++i) {
+            //var code = $(selector).text().charCodeAt(i);
+            var code = selector.charCodeAt(i);
+            var codeHex = code.toString(16).toUpperCase();
+            while (codeHex.length < 4) {
+                codeHex = "0" + codeHex;
+            }
+            codeHex = "U+" + codeHex;
+            console.log("U+" + codeHex);
+            checkData(codeHex, selector[i]);
+        }
+        //return "&#x" + codeHex + ";";
+    }
+
+    function clearData(){
+        document.getElementById('divTable').innerHTML = "";
+        data = [];
+    }
+
+    function printTable(){
+        var table = document.createElement('table');
+        var trHead = document.createElement('tr');
+        var tdHead0 = document.createElement('td');
+        var tdHead1 = document.createElement('td');
+        var tdHead2 = document.createElement('td');
+        var textHead0 = document.createTextNode('Char');
+        var textHead1 = document.createTextNode('Unicode');
+        var textHead2 = document.createTextNode('Count');
+        tdHead0.appendChild(textHead0);
+        tdHead1.appendChild(textHead1);
+        tdHead2.appendChild(textHead2);
+        trHead.appendChild(tdHead0);
+        trHead.appendChild(tdHead1);
+        trHead.appendChild(tdHead2);
+        table.appendChild(trHead);
+        
+        for (var i = 0; i < data.length; i++){
+            var tr = document.createElement('tr');   
+
+            var td0 = document.createElement('td');
+            var td1 = document.createElement('td');
+            var td2 = document.createElement('td');
+
+            var text0 = document.createTextNode(data[i].ch);
+            var text1 = document.createTextNode(data[i].code);
+            var text2 = document.createTextNode(data[i].count);
+
+            td0.appendChild(text0);
+            td1.appendChild(text1);
+            td2.appendChild(text2);
+            tr.appendChild(td0);
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+
+            table.appendChild(tr);
+        }
+        //document.body.appendChild(table);
+
+        var getDiv = document.getElementById('divTable');
+        getDiv.appendChild(table);
+    }
+
+    //------------------------ MAIN ---------------------------------
+
+    function checkGlyphs() {
+        /*
+        var currentNode,
+            ni = document.createNodeIterator(document.documentElement, NodeFilter.SHOW_ELEMENT);
+
+        var currentNode,
+            ni = document.createNodeIterator(
+                             document.documentElement, 
+                             NodeFilter.SHOW_ELEMENT,
+                             function(node){
+                                 return node.classList.contains('selection') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                             }
+                 );
+
+        while(currentNode = ni.nextNode()) {
+            console.log(currentNode.nodeName);
+            entityForSymbolInContainer(currentNode.nodeName);
+        }
+        */
+
+        clearData();
+        entityForSymbolInContainer(document.getElementById("inp").value);
+        printTable();
+    }
+
+    </script>
+
+    </head>
+
+    <body>
+        <body>
+            <h1>Unicode Checker</h1>
+            
+            <input class="css-input" id="inp"></input>
+            <br />
+            <br />
+            <button onClick="checkGlyphs()" class="btn">Check</button>
+            <br /><br />
+            <div class="CSSTableGenerator" id="divTable">
+            </div>            
+        </body>
+    </body>
+</html>
