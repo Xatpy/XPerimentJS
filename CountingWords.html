@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Counting words from CartoDB</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+          body {
+            text-align: center;
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            background-color: rgb(248,248,248);
+          }
+          .style-1 input[type="text"] {
+            padding: 10px;
+            border: solid 1px #dcdcdc;
+            transition: box-shadow 0.3s, border 0.3s;
+          }
+          .style-1 input[type="text"]:focus,
+          .style-1 input[type="text"].focus {
+            border: solid 1px #707070;
+            box-shadow: 0 0 5px 1px #969696;
+          }
+          h1 {
+            background-color: rgb(106,150,213);
+          }
+        </style>
+
+        <!-- JQuery -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            var dict = []; //word and count
+            var B_DEBUG = false;
+            function sortByKey(array, key) {
+                return array.sort(function(a, b) {
+                    var x = a[key]; var y = b[key];
+                    return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+                });
+            }
+            //Check if the word pass all the filters. Return true is everything is ok and is passed
+            function filters(wd) {
+              if (wd.length < 4) {
+                return false;
+              }
+              return true;
+            }
+            //Clearing words with points and commas
+            function clear(wd){
+              wd = wd.split('.').join("");
+              wd = wd.split(',').join("");
+              return wd;
+            }
+            //function that evaluates if two words are equal. 
+            //It evaluates converting to capital
+            function equalWords(wd_1, wd_2) {
+              return (wd_1.toUpperCase() === wd_2.toUpperCase());
+            }
+            function checkingWordInDictionary(wd) {
+                for (var i = 0; i < dict.length; ++i) {
+                  //if (dict[i].word === wd) {
+                  if (equalWords(dict[i].word, wd)) {
+                    //existe, así que aumentamos su valor en 1 y nos piramos
+                    dict[i].value += 1;
+                    return;
+                  }
+                }
+                dict.push({word: wd, value: 1});
+            }
+            function pointInTriange(P, A, B, C) {
+              // Compute vectors        
+              function vec(from, to) {  
+                return [to[0] - from[0], to[1] - from[1]];  
+              }
+               // Compute dot products
+              function dot(u, v) {  
+                return u[0] * v[0] + u[1] * v[1];  
+              }
+              
+              var v0 = vec(A, C);
+              var v1 = vec(A, B);
+              var v2 = vec(A, P);
+              var dot00 = dot(v0, v0);
+              var dot01 = dot(v0, v1);
+              var dot02 = dot(v0, v2);
+              var dot11 = dot(v1, v1);
+              var dot12 = dot(v1, v2);
+              // Compute barycentric coordinates
+              var invDenom = 1.0 / (dot00 * dot11 - dot01 * dot01);
+              var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+              var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+              // Check if point is in triangle
+              return (u >= 0) && (v >= 0) && (u + v < 1);
+            }
+            function main() {
+                debugger
+                var p = [500, 5];
+                var A = [0, 0];
+                var B = [0, 100];
+                var C = [100, 0];
+                var res = pointInTriange(p,A,B,C);
+                console.log('resultado = ' + res);
+                debugger
+                console.log('start');
+                printStatus('Executing query...');
+                //var url = "https://marias.cartodb.com/api/v2/sql?q=select%20*%20from%20twitter_temblor_terremoto_earthquake";
+                var url = "https://";
+                url += ( ($("#inUser").val() === "") ? $("#inUser").attr("placeholder") : $("#inUser").val());
+                url += ".cartodb.com/api/v2/sql?q=select%20";
+                var col = ( ($("#inColumn").val() === "") ? $("#inColumn").attr("placeholder") : $("#inColumn").val());
+                //url += ( ($("#inColumn").val() === "") ? $("#inColumn").attr("placeholder") : $("#inColumn").val());
+                url += col;
+                url += "%20from%20";
+                url += ( ($("#inTable").val() === "") ? $("#inTable").attr("placeholder") : $("#inTable").val());
+                $.getJSON( url, function (data) {
+                    printStatus('Analyzing data...');
+                    var rows = data.rows;
+                    var length = rows.length;
+                    var percentage = 0;
+                    var unit = length / 10;
+                    var part = length / 10;
+                    for (var i = 0; i < length; ++i) {
+                      //Check status
+                      if ( (i - (percentage * unit)) > unit) {
+                        ++percentage;
+                        var text = percentage + "0 %";
+                        printStatus(text);
+                        console.log(text);
+                      }
+                      var phrase = rows[i][col];
+                      var arWords = phrase.split(" ");
+                      //Go through array and check if we have this 
+                      for (var j = 0; j < arWords.length; ++j) {
+                        var checkWord = arWords[j];
+                        if (filters(checkWord)) {
+                          checkWord = clear(checkWord);
+                          checkingWordInDictionary(checkWord);
+                        }
+                      }
+                      if (B_DEBUG) {
+                        console.log(phrase);
+                      }
+                    }
+                    printStatus('Sorting...');
+                    //ordenar array
+                    sortByKey(dict, 'value');
+                    //paint
+                    paint();
+                  
+                    console.log('fin');
+                })
+            }
+            function paint() {
+              $("#results").text(' '); //Clean results
+              for (var i = 0; i < dict.length; ++i) {
+                var text = '<p>' + dict[i].word + " : " + dict[i].value + '</p>';
+                $("#results").append(text);
+              }
+            }
+            function printStatus(status){
+              $("#results").text(status);
+            }
+        </script>
+    </head>
+
+    <!--<body onload="main()">-->
+    <body>
+      <div>
+        <h1>Counting words from CartoDB</h1>
+          <h2>User</h2>
+          <input class="input-list style-1 clearfix" style="width:300px;" type="text" placeholder="marias" id="inUser">
+          <h2>Column</h2>
+          <input class="input-list style-1 clearfix" style="width:500px;" type="text" placeholder="body" id="inColumn">
+          <h2>Table</h2>
+          <input class="input-list style-1 clearfix" style="width:500px;" type="text" id="inTable" placeholder="twitter_temblor_terremoto_earthquake">
+        <br>
+        <br>
+        <button onclick="main()">Go!</button>
+      </div>
+
+      <div id="results">
+        <h1>Results</h1>
+
+      </div>
+    </body>
+</html>
