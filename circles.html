@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 	<title>Circles</title>
 	<style>
-		html, body {
-			width:  100%;
-			height: 100%;
-			margin: 0px;
-		}
+	html, body {
+	    width:  100%;
+	    height: 100%;
+	    margin: 0px;
+	}
 	</style>
 	</head>
 	<body>
@@ -19,7 +19,7 @@
 	<script>
 	(function() {
 	    var canvas = document.getElementById('myCanvas'),
-        context = canvas.getContext('2d');
+            context = canvas.getContext('2d');
 
 	    window.addEventListener('resize', resizeCanvas, false);
 
@@ -32,41 +32,41 @@
 	    resizeCanvas();
 
 	    function createRandomColor() {
-			return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
-		}
+		return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+	    }
 
 	    function drawStuff() {
-	            // do your drawing stuff here
-            function drawCircles(){
-				var numSteps = 23; // One circle = 23
-				var maxSteps = 500;
-				var r = 10;
-				var h = canvas.width / 2;
-				var k = canvas.height / 2;
-				ctx.moveTo(h,k);
-				ctx.lineTo(h,k);
+            	// do your drawing stuff here
+            	function drawCircles(){
+			var numSteps = 23; // One circle = 23
+			var maxSteps = 500;
+			var r = 10;
+			var h = canvas.width / 2;
+			var k = canvas.height / 2;
+			ctx.moveTo(h,k);
+			ctx.lineTo(h,k);
 
-				var i = 0;
-				function loopDrawCircle () {  
-				   setTimeout(function () {   
-						i++;                     
-						var t = (2 * Math.PI) * (i / numSteps) ;
-						var x = (r + i) * Math.cos(t) + h;
-						var y = (r + i) * Math.sin(t) + k;
-						ctx.lineTo(x,y);
-						ctx.strokeStyle = createRandomColor();
-						ctx.stroke();
-				      	if (i <= maxSteps) { 
-				        	loopDrawCircle();
-				      	}
-				   }, 100) // ms
-				}
-				loopDrawCircle();
+			var i = 0;
+			function loopDrawCircle () {  
+			   setTimeout(function () {   
+					i++;                     
+					var t = (2 * Math.PI) * (i / numSteps) ;
+					var x = (r + i) * Math.cos(t) + h;
+					var y = (r + i) * Math.sin(t) + k;
+					ctx.lineTo(x,y);
+					ctx.strokeStyle = createRandomColor();
+					ctx.stroke();
+			      	if (i <= maxSteps) { 
+			        	loopDrawCircle();
+			      	}
+			   }, 100) // ms
 			}
+			loopDrawCircle();
+		}
 				
-			var c = document.getElementById("myCanvas");
-			var ctx = c.getContext("2d");
-			drawCircles();
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+		drawCircles();
 	    }
 	})();
 	</script>
