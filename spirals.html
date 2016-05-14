@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<title>Spirals</title>
+	<style>
+		html, body {
+			width:  100%;
+			height: 100%;
+			margin: 0px;
+			font-family: Tahoma, Geneva, sans-serif;
+		}
+
+		h1, h3 {
+		  text-shadow: 0 0 3px #000; /* horizontal-offset vertical-offset 'blur' colour */
+		  -moz-text-shadow: 0 0 3px #000;
+		  -webkit-text-shadow: 0 0 3px #000;
+		}
+	</style>
+	</head>
+	<body>
+
+	<center>
+		<h1 style="background-color: #6E99FD; margin: 0px; color:white;">Spirals</h1>
+		<h3 style="background-color: #2480C3; margin: 0px; color:white; ">Click on the screen to create spirals</h3>
+	</center>
+	<div id="divCanvas">
+		<canvas id="myCanvas" style="z-index: 0; position:absolute;"></canvas>
+	</div>
+
+
+	<script>
+	(function() {
+
+		// Global variables
+		var contCanvas = 1;
+
+	    function resizeCanvas(canvasElem) {
+	    		var canvas = document.getElementById(canvasElem),
+        		context = canvas.getContext('2d');
+        		canvas.addEventListener("mousedown", getCursorPosition, false);
+	    		window.addEventListener('resize', resizeCanvas, false);
+
+	            canvas.width = window.innerWidth;
+	            canvas.height = window.innerHeight;
+	    }
+
+	    resizeCanvas("myCanvas");
+	    drawStuff(document.getElementById("myCanvas").width / 2, document.getElementById("myCanvas").height / 2, "myCanvas"); 
+
+	    function createRandomColor() {
+			return '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+		}
+
+	    function drawStuff(centerX, centerY, elementCanvas) {
+	            // do your drawing stuff here
+            var h = centerX;
+			var k = centerY;
+
+			var c = document.getElementById(elementCanvas);
+			var ctx = c.getContext("2d");
+			var color = createRandomColor();
+
+            function drawCircles(){
+				var numSteps = 23; // One circle = 23
+				var maxSteps = 500;
+				var r = 10;
+				
+				ctx.moveTo(h,k);
+				ctx.lineTo(h,k);
+
+				var i = 0;
+				function loopDrawCircle () {  
+				   setTimeout(function () {   
+						i++;                     
+						var t = (2 * Math.PI) * (i / numSteps) ;
+						// Adding "i" to create a spiral
+						var x = (r + i) * Math.cos(t) + h;
+						var y = (r + i) * Math.sin(t) + k;
+						ctx.lineTo(x,y);
+						ctx.strokeStyle = color;
+						ctx.stroke();
+						//ctx.closePath();
+				      	if (i <= maxSteps) { 
+				        	loopDrawCircle();
+				      	}
+				   }, 50) // ms
+				}
+				loopDrawCircle();
+			}
+				
+			drawCircles();
+	    }
+
+		// Create a new canvas and returns its id 
+	    function createCanvas() {
+			var canvas = document.createElement('canvas');
+		    var canvasId = "canvas_" + contCanvas;
+			canvas.id = canvasId;
+			canvas.style = "z-index: " + contCanvas + "; position:absolute;";
+			document.getElementById("divCanvas").appendChild(canvas);
+			resizeCanvas(canvasId);
+			++contCanvas;
+
+			return canvasId;
+	    }
+	
+		// Create mor
+	    function getCursorPosition(event) {
+		    var rect = document.getElementById('myCanvas').getBoundingClientRect();
+		    var x = event.clientX - rect.left;
+		    var y = event.clientY - rect.top;		    
+		    var canvasId = createCanvas();
+			drawStuff(x,y, canvasId);
+		}
+
+	})();
+
+
+	</script>
+</body>
+</html>
