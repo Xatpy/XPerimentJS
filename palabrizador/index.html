@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>Palabrizador</title>
+  	<link rel="shortcut icon" href="./icon.png" />
+
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+</head>
+<style>
+	body {
+		font-family: 'Open Sans';
+
+		background: rgb(173,237,235); /* Old browsers */
+		background: -moz-linear-gradient(left,  rgba(173,237,235,1) 0%, rgba(78,187,183,1) 49%, rgba(173,237,235,1) 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(left,  rgba(173,237,235,1) 0%,rgba(78,187,183,1) 49%,rgba(173,237,235,1) 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to right,  rgba(173,237,235,1) 0%,rgba(78,187,183,1) 49%,rgba(173,237,235,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#adedeb', endColorstr='#adedeb',GradientType=1 ); /* IE6-9 */
+
+	}
+
+	#title {
+		text-align: center;
+		font-size: 64px;
+		color: #2C4443;
+		margin-bottom: 0px;
+	}
+
+	#subtitle {
+		text-align: center;
+		color: #2C4448;
+		margin-top: 0px;
+		font-style: italic;
+	}
+
+	#content {
+		width: 60%; 
+		margin:0 auto;
+		background-color: #F8FFFF;
+	}
+
+	.search {
+		margin:0px auto; 
+		display:block;
+		text-align: center;
+		font-size: 30px;
+		 border-style: solid;
+	    border-width: 2px;
+	}
+
+	.button {
+		margin: 15px auto;
+		margin-top: 30px;
+	    background-color: #008CBA; 
+	    border: none;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    font-size: 16px;
+	    border-radius: 4px;
+	    cursor: pointer;
+	}
+	.button:hover {
+	    background-color: #3CAACE;
+	    color: white;
+	}
+
+	.rcorners2 {
+	    border-radius: 25px;
+	    border: 2px solid #168E89;
+	    padding: 20px; 
+	    width: auto;
+	    height: auto; 
+	}
+
+	@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+		#title {
+			font-size: 40px;
+		}
+
+		#content {
+			width: 80%; 
+		}
+	}
+
+	@media only screen and (min-device-width : 767px) and (max-device-width : 1024px){
+		#title {
+			font-size: 45px;
+		}
+
+		#content {
+			width: 70%; 
+		}
+	}
+</style>
+
+<body>
+	<div id="content" class="rcorners2">
+		<h1 id="title">Palabrizador</h1>
+		<h4 id="subtitle">"Bucea en el diccionario español"</h4>
+		<input class="search" id="strToFind" onkeyup="keyUpFunction()"></input>
+		<button class="search button" onclick="findString()">Buscar</button>
+		<div id="results"></div>
+	</div>
+
+	<script>
+		var palabras;
+
+		function loadJSON(path, success, error)
+		{
+		    var xhr = new XMLHttpRequest();
+		    xhr.onreadystatechange = function()
+		    {
+		        if (xhr.readyState === XMLHttpRequest.DONE) {
+		            if (xhr.status === 200) {
+		                if (success)
+		                    success(JSON.parse(xhr.responseText));
+		            } else {
+		                if (error)
+		                    error(xhr);
+		            }
+		        }
+		    };
+		    xhr.open("GET", path, true);
+		    xhr.send();
+		}
+
+		loadJSON('/palabras.json',
+		 	function(data) { 
+		 		palabras = data;
+		 		findString();
+		 	},
+	        function(xhr) { console.error(xhr); }
+		);
+
+		window.onload = function() {
+	  		loadJSON();
+		};
+
+
+		function findString() {
+			str = document.getElementById("strToFind").value;
+			if ( (str === undefined) || (str === "") ){
+				return;
+			}
+
+			var foundList = []
+			for (var i = 0; i < palabras.data.length ; ++i) {
+				if (palabras.data[i].toLowerCase().indexOf(str.toLowerCase()) !== -1) {
+					foundList.push(palabras.data[i]);
+				}
+			}
+
+			showResults(foundList);
+		}
+
+		function showResults(resultsArray) {
+			// Clear
+			var divResults = document.getElementById('results');
+			divResults.innerHTML = "";
+			// Create new results list
+			if (resultsArray.length > 0) {
+				divResults.appendChild(makeUL(resultsArray));
+			}
+		}
+
+		function makeUL(array) {
+		    var list = document.createElement('ul');
+		    list.style = "list-style-type:square; color:#3F8C89;"
+		    for(var i = 0; i < array.length; i++) {
+		        var item = document.createElement('li');
+		        item.style = "margin-left: 25px;";
+		        var a = document.createElement('a');
+				var linkText = document.createTextNode(array[i]);
+				a.appendChild(linkText);
+				a.title = array[i];
+				a.href = "http://dle.rae.es/?w=" + array[i];
+				a.target = "_blank";
+				item.appendChild(a);
+				list.appendChild(item);
+		    }
+		    return list;
+		}
+
+		function keyUpFunction(){
+			if (document.getElementById("strToFind").value.length >= 2)
+			{
+				findString();
+			}
+		}
+	</script>
+</body>
+
+</html>

@@ -12,6 +12,10 @@
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             background-color: rgb(248,248,248);
           }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
           .style-1 input[type="text"] {
             padding: 10px;
             border: solid 1px #dcdcdc;
@@ -22,6 +26,10 @@
             border: solid 1px #707070;
             box-shadow: 0 0 5px 1px #969696;
           }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
           h1 {
             background-color: rgb(106,150,213);
           }
@@ -31,31 +39,56 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>
             var dict = []; //word and count
+<<<<<<< HEAD
             var B_DEBUG = false;
+=======
+
+            var B_DEBUG = false;
+
+>>>>>>> master
             function sortByKey(array, key) {
                 return array.sort(function(a, b) {
                     var x = a[key]; var y = b[key];
                     return ((x > y) ? -1 : ((x < y) ? 1 : 0));
                 });
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
             //Check if the word pass all the filters. Return true is everything is ok and is passed
             function filters(wd) {
               if (wd.length < 4) {
                 return false;
               }
+<<<<<<< HEAD
               return true;
             }
+=======
+
+              return true;
+            }
+
+>>>>>>> master
             //Clearing words with points and commas
             function clear(wd){
               wd = wd.split('.').join("");
               wd = wd.split(',').join("");
               return wd;
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
             //function that evaluates if two words are equal. 
             //It evaluates converting to capital
             function equalWords(wd_1, wd_2) {
               return (wd_1.toUpperCase() === wd_2.toUpperCase());
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
             function checkingWordInDictionary(wd) {
                 for (var i = 0; i < dict.length; ++i) {
                   //if (dict[i].word === wd) {
@@ -65,13 +98,24 @@
                     return;
                   }
                 }
+<<<<<<< HEAD
                 dict.push({word: wd, value: 1});
             }
+=======
+
+                dict.push({word: wd, value: 1});
+            }
+
+>>>>>>> master
             function pointInTriange(P, A, B, C) {
               // Compute vectors        
               function vec(from, to) {  
                 return [to[0] - from[0], to[1] - from[1]];  
               }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                // Compute dot products
               function dot(u, v) {  
                 return u[0] * v[0] + u[1] * v[1];  
@@ -80,6 +124,10 @@
               var v0 = vec(A, C);
               var v1 = vec(A, B);
               var v2 = vec(A, P);
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
               var dot00 = dot(v0, v0);
               var dot01 = dot(v0, v1);
               var dot02 = dot(v0, v2);
@@ -92,17 +140,35 @@
               // Check if point is in triangle
               return (u >= 0) && (v >= 0) && (u + v < 1);
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
             function main() {
                 debugger
                 var p = [500, 5];
                 var A = [0, 0];
                 var B = [0, 100];
                 var C = [100, 0];
+<<<<<<< HEAD
                 var res = pointInTriange(p,A,B,C);
                 console.log('resultado = ' + res);
                 debugger
                 console.log('start');
                 printStatus('Executing query...');
+=======
+
+                var res = pointInTriange(p,A,B,C);
+                console.log('resultado = ' + res);
+
+
+
+                debugger
+                console.log('start');
+
+                printStatus('Executing query...');
+
+>>>>>>> master
                 //var url = "https://marias.cartodb.com/api/v2/sql?q=select%20*%20from%20twitter_temblor_terremoto_earthquake";
                 var url = "https://";
                 url += ( ($("#inUser").val() === "") ? $("#inUser").attr("placeholder") : $("#inUser").val());
@@ -112,13 +178,25 @@
                 url += col;
                 url += "%20from%20";
                 url += ( ($("#inTable").val() === "") ? $("#inTable").attr("placeholder") : $("#inTable").val());
+<<<<<<< HEAD
                 $.getJSON( url, function (data) {
                     printStatus('Analyzing data...');
+=======
+
+                $.getJSON( url, function (data) {
+
+                    printStatus('Analyzing data...');
+
+>>>>>>> master
                     var rows = data.rows;
                     var length = rows.length;
                     var percentage = 0;
                     var unit = length / 10;
                     var part = length / 10;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                     for (var i = 0; i < length; ++i) {
                       //Check status
                       if ( (i - (percentage * unit)) > unit) {
@@ -127,8 +205,15 @@
                         printStatus(text);
                         console.log(text);
                       }
+<<<<<<< HEAD
                       var phrase = rows[i][col];
                       var arWords = phrase.split(" ");
+=======
+
+                      var phrase = rows[i][col];
+                      var arWords = phrase.split(" ");
+
+>>>>>>> master
                       //Go through array and check if we have this 
                       for (var j = 0; j < arWords.length; ++j) {
                         var checkWord = arWords[j];
@@ -137,19 +222,38 @@
                           checkingWordInDictionary(checkWord);
                         }
                       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
                       if (B_DEBUG) {
                         console.log(phrase);
                       }
                     }
+<<<<<<< HEAD
                     printStatus('Sorting...');
                     //ordenar array
                     sortByKey(dict, 'value');
+=======
+
+                    printStatus('Sorting...');
+
+                    //ordenar array
+                    sortByKey(dict, 'value');
+
+>>>>>>> master
                     //paint
                     paint();
                   
                     console.log('fin');
                 })
+<<<<<<< HEAD
             }
+=======
+
+            }
+
+>>>>>>> master
             function paint() {
               $("#results").text(' '); //Clean results
               for (var i = 0; i < dict.length; ++i) {
@@ -157,9 +261,17 @@
                 $("#results").append(text);
               }
             }
+<<<<<<< HEAD
             function printStatus(status){
               $("#results").text(status);
             }
+=======
+
+            function printStatus(status){
+              $("#results").text(status);
+            }
+
+>>>>>>> master
         </script>
     </head>
 
@@ -183,4 +295,8 @@
 
       </div>
     </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> master
