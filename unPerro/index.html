@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Un perro🐶</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <style>
+    * {
+        text-align: center;
+        background-color: 000000;
+
+    }
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    </style>
+    <script type="text/javascript">
+
+    var keyword = "dog";
+    var time = 2300;
+    var unPerroMP3 = "https://github.com/Xatpy/SoundsTable/raw/master/LaVidaModerna/unPerro.mp3";
+
+    function unPerro()
+    {
+        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+        {
+            tags: keyword,
+            tagmode: "any",
+            format: "json"
+        },
+        function(data) {
+            var rnd = Math.floor(Math.random() * data.items.length);
+
+            var image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
+
+            $('body').css('background-image', "url('" + image_src + "')");
+            $('body').css('background-repeat', "no-repeat");
+            $('body').css('background-position', "center");
+
+            playSound();
+        });
+    }
+
+    function playSound() {
+        var guau = document.getElementById("unPerroAudio");
+        guau.play();
+    }
+
+    window.onload = function() {
+        unPerro();
+        window.setInterval(function(){
+            unPerro();
+        }, time);
+    };
+   
+    </script>
+</head>
+<body>
+    <audio id="unPerroAudio">
+         <source src="https://github.com/Xatpy/SoundsTable/raw/master/LaVidaModerna/unPerro.mp3" type="audio/mpeg">
+    </audio>
+</body>
+</html>
