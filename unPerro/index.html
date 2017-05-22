@@ -4,6 +4,7 @@
     <title>Un perro🐶</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <style>
     * {
         text-align: center;
@@ -39,7 +40,7 @@
             $('body').css('background-repeat', "no-repeat");
             $('body').css('background-position', "center");
 
-            playSound();
+            //playSound();
         });
     }
 
@@ -49,6 +50,11 @@
     }
 
     window.onload = function() {
+        createjs.Sound.registerSound(unPerroMP3, "x");
+        setTimeout(function () {
+            createjs.Sound.play("x");
+        }, 500)
+
         unPerro();
         window.setInterval(function(){
             unPerro();
