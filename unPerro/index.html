@@ -21,7 +21,7 @@
 
     var keyword = "dog";
     var time = 2300;
-    var unPerroMP3 = "https://github.com/Xatpy/SoundsTable/raw/master/LaVidaModerna/unPerro.mp3";
+    var unPerroMP3 = "https://raw.githubusercontent.com/Xatpy/SoundsTable/master/LaVidaModerna/unPerro.mp3";
 
     function unPerro()
     {
@@ -51,7 +51,8 @@
 
     window.onload = function() {
         createjs.Sound.registerSound(unPerroMP3, "x");
-        setTimeout(function () {
+        window.setInterval(function () {
+            console.log("aaa");
             createjs.Sound.play("x");
         }, 500)
 
