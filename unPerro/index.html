@@ -19,18 +19,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
-    <style>
-    * {
-        text-align: center;
-        background-color: 000000;
-
-    }
-    img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="Style.css"/>
     <script type="text/javascript">
 
     var keyword = "dog, animal, pet";
@@ -50,9 +39,11 @@
 
             var image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
 
+            $('body').css('background-color', "black");
             $('body').css('background-image', "url('" + image_src + "')");
             $('body').css('background-repeat', "no-repeat");
             $('body').css('background-position', "center");
+            $('body').css('background-attachment', "fixed");
 
             playSound();
         });
