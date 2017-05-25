@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+	<title>La carita spinner</title>
+	<style>
+		html,
+		body {
+		  height: 100vh;
+		  margin: 0;
+		  width: 100vw;
+		}
+
+		@keyframes rotate {
+		  from {transform: rotate(0deg);}
+		  to {transform: rotate(360deg);}
+		}
+
+		.loading {
+		  background: #FBC100;
+		  height: 100%;
+		  position: relative;
+		  width: 100%;
+		}
+
+		.spinner {
+		  animation-name: rotate; 
+		  animation-duration: 2.5s; 
+		  animation-iteration-count: infinite;
+		  animation-timing-function: linear;
+		  position: absolute;
+		  left: calc(50% - 75px);
+		  top: calc(50% - 80px);
+		  transform: translate(-50%, -50%);
+		}
+	</style>
+</head>
+<body>
+	<div class="loading">
+  		<img class="spinner" src="./laCarita.png">
+	</div>
+	<script>
+    var unPerroMP3 = "https://raw.githubusercontent.com/Xatpy/SoundsTable/master/LaVidaModerna/unPerro.mp3";
+    var time = 3000;
+
+    function playSound() {
+        createjs.Sound.play("sound");
+    }
+
+    window.onload = function() {
+        createjs.Sound.registerSound(unPerroMP3, "sound");
+        playSound();
+        window.setInterval(function(){
+            playSound();
+        }, time);
+    };
+
+	</script>
+</body>
+</html>
