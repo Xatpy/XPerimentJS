@@ -1,6 +1,12 @@
 <html>
 	<head>
 		<title>Mimimator</title>
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+
+		<meta charset="UTF-8">
+
+		<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+		<link rel="icon" href="./favicon.ico" type="image/x-icon">
 
 		<link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
 
@@ -29,6 +35,9 @@
     			font-size: 4vw;
     			margin-top: -50px;
     			margin-bottom: 20px;
+    			-webkit-border-radius: 30px;
+				-moz-border-radius: 30px;
+				border-radius: 30px;
 			}
 
 			.btn {
@@ -61,9 +70,7 @@
 				h1 {
 					color: #f442b0;
 					font-size: 8vw;
-					padding-top: 50px;
 					padding-bottom: 50px;
-					margin-top: 250px;
 				}
 
 				#userInput {
@@ -80,24 +87,28 @@
 		</style>
 	</head>
 	<body>
-		<h1>Mimimator</h1>
-		<input id="userInput" value="La vida moderna"></input>
-		<br>
-		<br>
-		<button onclick="mimimator()" class="btn">Mi-mi-mi</button>
-		<br>
-		<br>
-		<img src="./mimi.gif" id="imageMimi" style="visibility: hidden;"></img>
+		<div id="main">
+			<h1>Mimimator</h1>
+			<textarea id="userInput" value="La vida moderna">La vida moderna</textarea>
+			<br>
+			<br>
+			<button onclick="mimimator()" class="btn">Mi-mi-mi</button>
+			<br>
+			<br>
+			<img src="./mimi.gif" id="imageMimi" style="visibility: hidden;"></img>
+		</div>
 
 		<script>
-		
+
 		var globalProb = 0.75;
 
 		function mimimator()
 		{
-			changeVocalsToIs();
-			speak();
-			showImage();
+			if (document.getElementById('userInput').value.length > 0) {
+				changeVocalsToIs();
+				speak();
+				showImage();
+			}
 		}
 
 		function changeVocalsToIs()
@@ -136,6 +147,9 @@
 		}
 
 		function checkChangeVowelToI(c, nextChar) {
+
+			return ['a', 'e', 'i', 'o', 'é'].indexOf(c.toLowerCase()) !== -1;
+			/*
 			if (nextChar !== undefined && nextChar == " ")
 			{
 				return false;
@@ -150,7 +164,7 @@
 				}
 			}
 
-		    return ret;//s && probability(globalProb);
+		    return ret;//s && probability(globalProb);*/
 		}
 
 		var probability = function(n) {
