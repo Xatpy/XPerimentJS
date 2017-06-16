@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Mimimator</title>
@@ -16,6 +17,13 @@
 				letter-spacing: 1px;
 			}
 
+			html, body {
+			    margin: 0;
+    			padding: 0;
+    			min-height: 100%;
+    			width: 100%;
+			}
+
 			body {
 				background-color: #594c54;
 				text-align: center;
@@ -26,6 +34,11 @@
 				font-size: 8vw;
 				padding-top: 10px;
 				-webkit-text-stroke: 0.5px black;
+			}
+
+			#main {
+				height: 100%;
+				width: 100%;
 			}
 
 			#userInput {
@@ -69,18 +82,22 @@
 			  and (orientation: portrait) {
 				h1 {
 					color: #f442b0;
-					font-size: 8vw;
+					font-size: 10vw;
 					padding-bottom: 50px;
+					margin-top: 30%;
 				}
 
 				#userInput {
 					padding: 50px; 
-					padding-bottom: 100px;
-				    width: 650px;
-	    			height: 250px;
+				    width: 60%;
+	    			height: 20%;
 	    			text-align: center;
-	    			font-size: 2vw;
-	    			margin-bottom: 50px;
+	    			font-size: 4vw;
+	    			margin-bottom: 5%;
+				}
+
+				.btn {
+					padding: 10px 20px 10px 20px;
 				}
 			}
 
