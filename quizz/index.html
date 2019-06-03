@@ -1,0 +1,214 @@
+<html>
+    <style>
+        /* Palette: https://coolors.co/f4d06f-efecca-a9cbb7-ff934f-5e565a*/
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #EFECCA;
+        }
+        .divGeneral {
+            height: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spanQuestion {
+            border-radius: 25px;
+            border: 5px solid #5E565A;
+            padding: 20px;
+            background: #F4D06F;
+            font-size: xx-large;
+        }
+
+        .divAnswers {
+            align-content: center;
+            justify-content: space-evenly;
+            flex-shrink: 1;
+            flex-direction: row;
+            flex-grow: 1;
+            display: flex;
+        }
+
+        .divResults {
+            height: 20%;
+        }
+
+        .divResultsSpan {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btnAnswer {
+            font-family: Arial, Helvetica, sans-serif;
+            width: 15%;
+            cursor: pointer;
+            border-radius: 20px;
+            border: 3px solid #5E565A;
+            background-color: #A9CBB7;
+            font-size: x-large;
+        }
+
+        .idResultsPercentage {
+            font-weight: bold;
+        }
+
+        .correctAnswer {
+            background-color:#A9CBB7;
+            /*padding: 5px;*/
+            margin: 4px;
+        }
+        .incorrectAnswer {
+            background-color: #FF934F;
+            /*padding: 5px;*/
+            margin: 4px;
+            text-decoration: line-through;
+        }
+    </style>
+    <body>
+        <div id="main">
+            <div id="idQuestion" class="divGeneral">
+                <span id="spanQuestion" class="spanQuestion">Question</span>
+            </div>
+            <div id="idAnswers" class="divGeneral divAnswers">
+                <button id="answer1" class="btnAnswer" title="Key 1" onClick="clickOnAnswer(this.id)">1</button>
+                <button id="answer2" class="btnAnswer" title="Key 2" onClick="clickOnAnswer(this.id)">2</button>
+                <button id="answer3" class="btnAnswer" title="Key 3" onClick="clickOnAnswer(this.id)">3</button>
+                <button id="answer4" class="btnAnswer" title="Key 4" onClick="clickOnAnswer(this.id)">4</button>
+            </div>
+            <div id="idDivResults" class="divGeneral divResults">
+                <div id="idTitleResults">
+                    <span class="idResultsPercentage" id="idResultsPercentage">Results %</span>
+                </div>
+                <div id="divResultsSpan"></div>
+            </div>
+        </div>
+    </body>
+
+<script>
+    let gData;
+    let gStackQuestions;
+    let gCurrentIndex = 0;
+    let gCorrectAnswerIndex = 0;
+    let gNumberOfCorrectAnswers = 0;
+
+    function loadJSON(jsonNameFile, callback) {
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', jsonNameFile, true); // Replace 'my_data' with the path to your file
+        xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                callback(xobj.responseText);
+            }
+        };
+        xobj.send(null);  
+    }
+
+    function init() {
+        loadJSON("q1.json", function(response) {
+            // Parse JSON string into object
+            gData = JSON.parse(response);
+            gStackQuestions = shuffle(gData.q);
+
+            createQuestion();
+        });
+    }
+
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    }
+
+    function getNextCandidate(listCandidates, correctAnswer) {
+        let found = false;
+        let nextCandidate = "";
+        while (!found) {
+            let randomIndex = Math.floor(Math.random() * gData.q.length);
+            nextCandidate = gData.q[randomIndex].a;
+            if (nextCandidate !== correctAnswer && listCandidates.indexOf(nextCandidate) == -1) {
+                found = true;
+                listCandidates.push(nextCandidate);
+            }
+        }
+        return nextCandidate;
+    }
+
+    function createQuestion() {
+        let selectedQuestion = gStackQuestions[gCurrentIndex];
+        console.log(selectedQuestion.q);
+        document.getElementById("spanQuestion").textContent = selectedQuestion.q;
+
+        let listCandidates = [];
+        gCorrectAnswerIndex = Math.floor(Math.random() * 4) + 1;
+
+        for (let i = 1; i < 5; ++i) {
+            let tempAnswer = null;
+            if (i == gCorrectAnswerIndex) {
+                tempAnswer = selectedQuestion.a;
+            } else {
+                tempAnswer = getNextCandidate(listCandidates, selectedQuestion.a);
+            }
+            document.getElementById("answer" + i).innerHTML = tempAnswer;
+        }
+    }
+
+    function createSpanResult(text, isCorrect) {
+        var spanAnswer = document.createElement('span')
+        spanAnswer.innerHTML = text;
+        spanAnswer.setAttribute('class', isCorrect ? "correctAnswer" : "incorrectAnswer");
+        document.getElementById("divResultsSpan").appendChild(spanAnswer);
+    }
+
+    function clickOnAnswer(clickedBtn) {
+        let clickedButton = clickedBtn.substr(clickedBtn.length - 1);
+        let isCorrectAnswer = gCorrectAnswerIndex == clickedButton;
+        let text = (gCurrentIndex + 1).toString() + ". "+ gStackQuestions[gCurrentIndex].q + " ";
+        text += (isCorrectAnswer ? gStackQuestions[gCurrentIndex].a : document.getElementById(clickedBtn).innerHTML);
+
+        createSpanResult(text, isCorrectAnswer);
+
+        if (isCorrectAnswer) {
+            ++gNumberOfCorrectAnswers;
+        }
+        //debugger
+        ++gCurrentIndex;
+        createQuestion();
+
+        gPercentage = (gNumberOfCorrectAnswers / gCurrentIndex) * 100.0;
+        gPercentage = Math.round(gPercentage * 100) / 100;
+        document.getElementById("idResultsPercentage").innerHTML = "Results: " + gPercentage + "%";
+    }
+
+    function keyPressed(event) {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        if (event.keyCode === 49) {
+            clickOnAnswer("answer1");
+        } else if (event.keyCode === 50) {
+            clickOnAnswer("answer2");
+        } else if (event.keyCode === 51) {
+            clickOnAnswer("answer3");
+        } else if (event.keyCode === 52) {
+            clickOnAnswer("answer4");
+        }
+    }
+
+    window.onload = function(){
+        init();
+    }
+    window.addEventListener('keypress', keyPressed, false);
+    </script>
+</html>
